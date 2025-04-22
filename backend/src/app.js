@@ -35,7 +35,7 @@ app.use(
 
 const allowedOrigins = [
     'http://localhost:5174',
-    'https://bookmy-show-9wtr.vercel.app/',
+    'https://bookmy-show-9wtr.vercel.app',
   ];
   
   app.use(cors({
