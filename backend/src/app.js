@@ -5,6 +5,13 @@ import helmet from 'helmet'
 
 
 
+  
+
+
+const app = express()
+
+
+
 app.use(
     helmet.contentSecurityPolicy({
       directives: {
@@ -24,10 +31,7 @@ app.use(
       },
     })
   );
-  
 
-
-const app = express()
 
 const allowedOrigins = [
     'http://localhost:5174',
