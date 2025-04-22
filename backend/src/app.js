@@ -1,16 +1,49 @@
 import express from 'express'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
+import helmet from 'helmet'
 
+
+
+app.use(
+    helmet.contentSecurityPolicy({
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: [
+          "'self'",
+          "'unsafe-inline'", // needed if you're injecting inline scripts (e.g., from some frontend libs)
+          "blob:",
+          "filesystem:",
+          "cdn.jsdelivr.net",
+        ],
+        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"],
+        objectSrc: ["'none'"],
+        imgSrc: ["'self'", "data:", "blob:"],
+        connectSrc: ["'self'", "blob:"],
+      },
+    })
+  );
+  
 
 
 const app = express()
 
-app.use(cors({
-    origin:'http://localhost:5174',
-    credentials:true
-}))
-
+const allowedOrigins = [
+    'http://localhost:5174',
+    'https://bookmy-show-9wtr.vercel.app/',
+  ];
+  
+  app.use(cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true,
+  }));
 
 
 
