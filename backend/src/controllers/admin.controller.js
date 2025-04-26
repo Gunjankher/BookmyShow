@@ -171,7 +171,9 @@ const logoutAdmin = asyncHandlar(async (req, res) => {
     .json(
       new ApiResponse(
         200,
-        {},
+        {
+          
+        },
 
         "Admin Logged out Successfully",
       ),
