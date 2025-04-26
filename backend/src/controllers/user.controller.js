@@ -159,7 +159,9 @@ const loginUser = asyncHandlar(async (req, res) => {
   const options = {
     httpOnly: true,
     secure: true,
+    sameSite: "None", // ✅ Very important for cross-origin cookie
   };
+  
 
   return res
     .status(200)

@@ -27,7 +27,12 @@ app.use(
         fontSrc: ["'self'", "https://fonts.gstatic.com"],
         objectSrc: ["'none'"],
         imgSrc: ["'self'", "data:", "blob:"],
-        connectSrc: ["'self'", "blob:"],
+        connectSrc: [
+          "'self'",
+          "blob:",
+          "https://bookmy-show-9wtr.vercel.app", // your Vercel frontend
+          "https://your-backend-service.onrender.com", // your backend Render URL
+        ],
       },
     })
   );
