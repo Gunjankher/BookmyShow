@@ -1,313 +1,95 @@
-import { useEffect, useState } from 'react'
-import './App.css'
-import {Route,Routes} from 'react-router-dom'
-import Layout from './Layout'
-import AuthLayout from './components/AuthLayout'
-import Signup from './components/Signup'
-import Login from './components/Login'
-import TermsAndConditions from './components/TermsAndConditons'
-import HomePage from './pages/HomePage'
-import Movies from './pages/Movies'
-import AdminPage from './pages/Admin/AdminPage'
-import AdminSignup from './components/Admin/AdminSignup'
-import AdminLogin from './components/Admin/AdminLogin'
-import ProtectedRoute from '../src/ProtectedRoute'
-import MovieDetail from './pages/MovieDetail'
-import Show from './pages/show/Show'
-import PreShowPage from './pages/show/MovieByTheater'
-import MovieByTheater from './pages/show/MovieByTheater'
-import BookingPage from './pages/BookingPage'
-import DashBoard from './pages/Admin/DashBoard'
-import MovieManage from './pages/Admin/MovieManage'
-import EditMovie from './components/Admin/MovieManage/EditMovie'
-import CreateMovie from './components/Admin/MovieManage/CreateMovie.jsx'
-import Actors from './pages/Actors/Actors'
-import ActorProfile from './components/Admin/Actors/ActorProfile'
-import CreateActor from './pages/Actors/CreateActor'
-import AllShows from './pages/show/AllShows'
-import AllBooking from './pages/AllBooking'
-import Theaters from './pages/Theaters/Theaters'
-import UserBooking from './pages/UserBooking'
-import AssignMovie from './pages/Theaters/AssignMovie'
-import CreateShow from './pages/show/CreateShow'
-import CreateTheater from './pages/Theaters/CreateTheater'
-import EditTheater from './pages/Theaters/EditTheater'
-import { useDispatch } from 'react-redux'
-import { getCurrentUser } from './store/Slices/authSlice'
-import AdminLayout from './AdminLayout'
-import { getCurrentAdmin } from './store/Slices/adminSlice'
+import { useEffect } from 'react';
+import './App.css';
+import { Route, Routes } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { getCurrentUser } from './store/Slices/authSlice';
+import { getCurrentAdmin } from './store/Slices/adminSlice';
+import Layout from './Layout';
+import AdminLayout from './AdminLayout';
+import AuthLayout from './components/AuthLayout';
 
-
-
-
-
-
-
-
-
+// Lazy loaded components
+const Signup = React.lazy(() => import('./components/Signup'));
+const Login = React.lazy(() => import('./components/Login'));
+const TermsAndConditions = React.lazy(() => import('./components/TermsAndConditons'));
+const HomePage = React.lazy(() => import('./pages/HomePage'));
+const Movies = React.lazy(() => import('./pages/Movies'));
+const MovieDetail = React.lazy(() => import('./pages/MovieDetail'));
+const MovieByTheater = React.lazy(() => import('./pages/show/MovieByTheater'));
+const Show = React.lazy(() => import('./pages/show/Show'));
+const BookingPage = React.lazy(() => import('./pages/BookingPage'));
+const UserBooking = React.lazy(() => import('./pages/UserBooking'));
+const AdminLogin = React.lazy(() => import('./components/Admin/AdminLogin'));
+const AdminSignup = React.lazy(() => import('./components/Admin/AdminSignup'));
+const DashBoard = React.lazy(() => import('./pages/Admin/DashBoard'));
+const MovieManage = React.lazy(() => import('./pages/Admin/MovieManage'));
+const EditMovie = React.lazy(() => import('./components/Admin/MovieManage/EditMovie'));
+const CreateMovie = React.lazy(() => import('./components/Admin/MovieManage/CreateMovie'));
+const Actors = React.lazy(() => import('./pages/Actors/Actors'));
+const ActorProfile = React.lazy(() => import('./components/Admin/Actors/ActorProfile'));
+const CreateActor = React.lazy(() => import('./pages/Actors/CreateActor'));
+const AllShows = React.lazy(() => import('./pages/show/AllShows'));
+const AllBooking = React.lazy(() => import('./pages/AllBooking'));
+const Theaters = React.lazy(() => import('./pages/Theaters/Theaters'));
+const CreateTheater = React.lazy(() => import('./pages/Theaters/CreateTheater'));
+const AssignMovie = React.lazy(() => import('./pages/Theaters/AssignMovie'));
+const CreateShow = React.lazy(() => import('./pages/show/CreateShow'));
+const EditTheater = React.lazy(() => import('./pages/Theaters/EditTheater'));
 
 function App() {
+  const dispatch = useDispatch();
 
-  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getCurrentUser());
+  }, [dispatch]);
 
-  useEffect(()=>{
-    dispatch(getCurrentUser())
-  },[dispatch])
-  
-  useEffect(()=>{
-    dispatch(getCurrentAdmin())
-  },[dispatch])
-
+  useEffect(() => {
+    dispatch(getCurrentAdmin());
+  }, [dispatch]);
 
   return (
     <>
-         <Routes>
-          <Route path='/' element = {<Layout />}>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          {/* Public Routes */}
+          <Route index element={<React.Suspense fallback={<div>Loading...</div>}><HomePage /></React.Suspense>} />
+          <Route path="/movies" element={<React.Suspense fallback={<div>Loading...</div>}><Movies /></React.Suspense>} />
+          <Route path="/movies/:movieId" element={<React.Suspense fallback={<div>Loading...</div>}><MovieDetail /></React.Suspense>} />
+          <Route path="/movie/:movieId" element={<React.Suspense fallback={<div>Loading...</div>}><MovieDetail /></React.Suspense>} />
+          <Route path="/show/:movieId" element={<React.Suspense fallback={<div>Loading...</div>}><MovieByTheater /></React.Suspense>} />
+          <Route path="/seatbooking/:showId" element={<React.Suspense fallback={<div>Loading...</div>}><Show /></React.Suspense>} />
+          <Route path="signup" element={<React.Suspense fallback={<div>Loading...</div>}><Signup /></React.Suspense>} />
+          <Route path="login" element={<React.Suspense fallback={<div>Loading...</div>}><AuthLayout authentication={false}><Login /></AuthLayout></React.Suspense>} />
+          <Route path="terms&conditions" element={<React.Suspense fallback={<div>Loading...</div>}><TermsAndConditions /></React.Suspense>} />
+          <Route path="/booking/:bookingId" element={<React.Suspense fallback={<div>Loading...</div>}><BookingPage /></React.Suspense>} />
+          <Route path="/bookingbyUser/:userId" element={<React.Suspense fallback={<div>Loading...</div>}><AuthLayout authentication={true}><UserBooking /></AuthLayout></React.Suspense>} />
+        </Route>
 
-          {/* public Routes */}
+        {/* Admin Auth Pages (Outside layout) */}
+        <Route path="/admin/login" element={<React.Suspense fallback={<div>Loading...</div>}><AdminLogin /></React.Suspense>} />
+        <Route path="/admin/signup" element={<React.Suspense fallback={<div>Loading...</div>}><AdminSignup /></React.Suspense>} />
 
-          <Route 
-          index
-          element = {
-            // <AuthLayout authentication={false}>
-              <HomePage />
-            // </AuthLayout>
-          }
-          />
-
-<Route 
-          path='/movies'
-          element = {
-            // <AuthLayout authentication={false}>
-              <Movies />
-            // </AuthLayout>
-          }
-          />
-
-          <Route 
-          path= '/movies/:movieId'
-          element = {
-            // <AuthLayout>
-              <MovieDetail />
-            // </AuthLayout>
-          }
-          
-          />
-          <Route 
-          path= '/movie/:movieId'
-          element = {
-            // <AuthLayout>
-              <MovieDetail />
-            // </AuthLayout>
-          }
-          
-          />
-
-          <Route 
-          path='/show/:movieId'
-          element = {
-            // <AuthLayout authentication={false}>
-              <MovieByTheater />
-            // </AuthLayout>
-          }
-          />
-
-          <Route 
-          path='/seatbooking/:showId'
-          element = {
-            // <AuthLayout authentication={false}>
-              <Show />
-            // </AuthLayout>
-          }
-          />
-
-          <Route 
-          path='signup'
-          element = {
-            // <AuthLayout authentication={false}>
-              <Signup />
-            // </AuthLayout>
-          }
-          />
-
-          <Route 
-          path='login'
-          element = {
-            <AuthLayout authentication={false}>
-              <Login />
-             </AuthLayout>
-          }
-          />
-
-          <Route 
-          path='terms&conditions'
-          element = {
-            // <AuthLayout authentication={false}>
-              <TermsAndConditions />
-            // </AuthLayout>
-          }
-          />
-          <Route 
-          path='/booking/:bookingId'
-          element = {
-            // <AuthLayout authentication={false}>
-              <BookingPage />
-            // </AuthLayout>
-          }
-          />
-          <Route 
-          path='/bookingbyUser/:userId'
-          element = {
-            <AuthLayout authentication={true}>
-              <UserBooking />
-            </AuthLayout>
-          }
-          />
-
-
-
-         
-
-          </Route>
-          
-{/* Admin Auth Pages (Outside layout) */}
-<Route
-  path='/admin/login'
-  element={
-    // <AuthLayout authentication={false} adminOnly={false}>
-      <AdminLogin />
-    // </AuthLayout>
-  }
-/>
-<Route
-  path='/admin/signup'
-  element={
-    // <AuthLayout authentication={false} adminOnly={false}>
-      <AdminSignup />
-    // </AuthLayout>
-  }
-/>
-
-
-{/* Admin Routes (With Admin Layout) */}
-<Route path='/admin' element={<AdminLayout />}>
-  <Route
-    index
-    element={
-      <AuthLayout authentication={true} adminOnly={true}>
-        <DashBoard />
-       </AuthLayout>
-    }
-  />
-
-<Route
-  path='/admin/dashboard'
-  element={
-    <AuthLayout authentication={true} adminOnly={true}>
-      <DashBoard />
-    // </AuthLayout>
-  }
-/>
-<Route
-  path='/admin/movieManage'
-  element={
-    <AuthLayout authentication={true} adminOnly={true}>
-      <MovieManage />
-     </AuthLayout>
-  }
-/>
-<Route
-  path='/admin/movieManage/create'
-  element={
-    <AuthLayout authentication={true} adminOnly={true}>
-      <CreateMovie />
-     </AuthLayout>
-  }
-/>
-
-<Route
-path='/admin/movieManage/:movieId'
-
-element = {
-  <EditMovie />
-}
-/>
-<Route
-path='/admin/actor'
-
-element = {
-  <Actors />
-}
-/>
-<Route
-path='/admin/actor/:artistId'
-
-element = {
-  <ActorProfile />
-}
-/>
-<Route
-path='/admin/actor/create'
-
-element = {
-  <CreateActor />
-}
-/>
-<Route
-path='/admin/shows/all'
-
-element = {
-  <AllShows />
-}
-/>
-<Route
-path='/admin/bookings/all'
-
-element = {
-  <AllBooking />
-}
-/>
-<Route
-path='/admin/theaters'
-
-element = {
-  <Theaters />
-}
-/>
-<Route
-path='/admin/theaters/create'
-
-element = {
-  <CreateTheater />
-}
-/>
-<Route
-path='/admin/theaters/assign/:theaterId'
-
-element = {
-  <AssignMovie />
-}
-/>
-<Route
-path='/admin/theaters/show/create/:theaterId'
-
-element = {
-  <CreateShow />
-}
-/>
-<Route
-path='/admin/theaters/edit/:theaterId'
-
-element = {
-  <EditTheater />
-}
-/>
-</Route>
-
-          </Routes>       
+        {/* Admin Routes (With Admin Layout) */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<React.Suspense fallback={<div>Loading...</div>}><AuthLayout authentication={true} adminOnly={true}><DashBoard /></AuthLayout></React.Suspense>} />
+          <Route path="/admin/dashboard" element={<React.Suspense fallback={<div>Loading...</div>}><AuthLayout authentication={true} adminOnly={true}><DashBoard /></AuthLayout></React.Suspense>} />
+          <Route path="/admin/movieManage" element={<React.Suspense fallback={<div>Loading...</div>}><AuthLayout authentication={true} adminOnly={true}><MovieManage /></AuthLayout></React.Suspense>} />
+          <Route path="/admin/movieManage/create" element={<React.Suspense fallback={<div>Loading...</div>}><AuthLayout authentication={true} adminOnly={true}><CreateMovie /></AuthLayout></React.Suspense>} />
+          <Route path="/admin/movieManage/:movieId" element={<React.Suspense fallback={<div>Loading...</div>}><EditMovie /></React.Suspense>} />
+          <Route path="/admin/actor" element={<React.Suspense fallback={<div>Loading...</div>}><Actors /></React.Suspense>} />
+          <Route path="/admin/actor/:artistId" element={<React.Suspense fallback={<div>Loading...</div>}><ActorProfile /></React.Suspense>} />
+          <Route path="/admin/actor/create" element={<React.Suspense fallback={<div>Loading...</div>}><CreateActor /></React.Suspense>} />
+          <Route path="/admin/shows/all" element={<React.Suspense fallback={<div>Loading...</div>}><AllShows /></React.Suspense>} />
+          <Route path="/admin/bookings/all" element={<React.Suspense fallback={<div>Loading...</div>}><AllBooking /></React.Suspense>} />
+          <Route path="/admin/theaters" element={<React.Suspense fallback={<div>Loading...</div>}><Theaters /></React.Suspense>} />
+          <Route path="/admin/theaters/create" element={<React.Suspense fallback={<div>Loading...</div>}><CreateTheater /></React.Suspense>} />
+          <Route path="/admin/theaters/assign/:theaterId" element={<React.Suspense fallback={<div>Loading...</div>}><AssignMovie /></React.Suspense>} />
+          <Route path="/admin/theaters/show/create/:theaterId" element={<React.Suspense fallback={<div>Loading...</div>}><CreateShow /></React.Suspense>} />
+          <Route path="/admin/theaters/edit/:theaterId" element={<React.Suspense fallback={<div>Loading...</div>}><EditTheater /></React.Suspense>} />
+        </Route>
+      </Routes>
     </>
-
-  )
+  );
 }
 
-export default App
+export default App;
