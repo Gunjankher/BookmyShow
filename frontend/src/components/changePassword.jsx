@@ -1,8 +1,10 @@
 import React from "react";
-import { Input2, Button } from "../components";
+import Button from './Button'
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { changePassword } from "../store/Slices/authSlice";
+import Input2 from "./Input2";
+
 
 function ChangePassword() {
     const {
