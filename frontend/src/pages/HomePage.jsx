@@ -6,7 +6,7 @@ import Container from '@/components/Container'
 import { useEffect } from 'react'
 import { getAllMovies } from '@/store/Slices/movieSlice'
 import { Swiper, SwiperSlide} from "swiper/react";
-import { Navigation, Pagination, Autoplay, Scrollbar} from "swiper/modules";
+import { Navigation, Pagination, Autoplay, Scrollbar,FreeMode} from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -49,35 +49,36 @@ function HomePage() {
 
   return (
    <>
-    <div className='w-full flex flex-col items-center justify-center sm:overflow-y-hidden scroll-auto'>
+    <div className='w-full flex flex-col items-center justify-center sm:overflow-x-hidden '>
        
 <Container>
 
-<div className="w-[90%] max-w-[1305px] h-[500px] mx-auto overflow-x-hidden  flex items-center justify-center p-10 md:mx-auto">
- 
-      <Swiper
-        navigation={true}
-        pagination={{ clickable: true }}
-        autoplay={{ delay: 2500, disableOnInteraction: false }}
-        modules={[Navigation, Pagination, Scrollbar, Autoplay]}
-        loop={true}
-        className="w-full h-full"
+<div className="w-full max-w-[1305px] h-[300px] sm:h-[400px] md:h-[500px] mx-auto flex items-center justify-center px-4 md:px-10 my-5 ">
+  <Swiper
+    navigation={true}
+    pagination={{ clickable: true }}
+    autoplay={{ delay: 2500, disableOnInteraction: false }}
+    modules={[Navigation, Pagination, Scrollbar, Autoplay]}
+    loop={true}
+    className="w-full h-full"
+  >
+    {movie?.map((movie) => (
+      <SwiperSlide
+        key={movie.poster?.url}
+        className="flex justify-center items-center cursor-pointer"
+        onClick={() => navigate(`/movie/${movie._id}`)}
       >
-        {movie?.map((movie) => (
-          <SwiperSlide
-            key={movie.poster?.url}
-            className="flex justify-center items-center cursor-pointer object-contain"
-            onClick={() => navigate(`/movie/${movie._id}`)} // ✅ Navigate to movie page
-          >
-            <img
-              src={movie.coverPoster?.url} // ✅ Use API cover poster
-              alt={movie.title}
-              className="w-full h-full rounded-lg object-contain sm:object-cover sm:w-[80%]"
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </div>
+        <img
+          src={movie.coverPoster?.url}
+          alt={movie.title}
+          loading="lazy"
+          className="w-full h-full rounded-lg object-cover"
+        />
+      </SwiperSlide>
+    ))}
+  </Swiper>
+</div>
+
 
 
                         {/* movieCard */}
@@ -89,33 +90,45 @@ function HomePage() {
     <p className='animate-bounce'>Movies</p>
 </div>
 
-<Swiper
-      modules={[Navigation, Pagination, Autoplay]}
-      spaceBetween={50}
-      slidesPerView={4} // Show 3 cards at a time
-      navigation
-      pagination={{ clickable: true }}
-      autoplay={{ delay: 3000 }}
-      loop={true}
-      breakpoints={{
-        640: { slidesPerView: 1 },
-        768: { slidesPerView: 2 },
-        1024: { slidesPerView: 3 },
-      }}
-      className="w-[1300px] h-screen overflow-y-hidden "
-    >
-      {movie?.map((movie) => (
-        <SwiperSlide key={movie.title}>
-          <MovieCard
-            poster={movie.poster.url}
-            title={movie.title}
-            genre={movie.genre}
-            formats={movie.formats}
-            movieId={movie._id}
-          />
-        </SwiperSlide>
-      ))}
-    </Swiper>
+<div className="w-full overflow-x-auto">
+        <Swiper
+          modules={[Autoplay, Pagination, Navigation, FreeMode]}
+          freeMode={true}
+          grabCursor={true}
+          autoplay={{ delay: 2500, disableOnInteraction: false }}
+          pagination={{ clickable: true }}
+          navigation
+          slidesPerView={"auto"}
+          spaceBetween={20}
+          loop={false}
+          className="w-full max-w-[1300px] overflow-visible"
+        >
+          {movie?.map((movie) => (
+            <SwiperSlide
+              key={movie._id}
+              className="!w-[250px] flex-shrink-0"
+              onClick={() => navigate(`/movie/${movie._id}`)}
+            >
+              <MovieCard
+                poster={movie.poster.url}
+                title={movie.title}
+                genre={movie.genre}
+                formats={movie.formats}
+                movieId={movie._id}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+
+      {/* Center pagination */}
+      <style jsx>{`
+        .swiper-pagination {
+          text-align: center !important;
+          margin-top: 20px;
+        }
+      `}</style>
+    
 
 </div>
 </Container>

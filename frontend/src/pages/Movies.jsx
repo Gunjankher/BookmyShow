@@ -52,7 +52,7 @@ useEffect(() => {
   return (
 
     <div className='overflow-y-scroll scroll-auto h-screen'>
-    <div className="w-full my-22 flex flex-col items-center justify-center border-2 border-amber-200  text-white gap-10">
+    <div className="w-full my-22 flex flex-col items-center justify-center border-2  text-white gap-10">
   
 {
   movie?.map((movie)=>(

@@ -17,14 +17,14 @@ function Layout() {
           </div>
         )} */}
        <Navbar />
-      <div className='sm:flex flex-none'>
+      <div className='sm:flex flex-none overflow-y-hidden'>
         {/* Conditionally render Sidebar */}
         {!shouldHideSidebar && (
           <div>
             <Sidebar />
           </div>
         )}
-        <div className='sm:flex min-h-screen justify-center w-full mb-16 mt-3'>
+        <div className='sm:flex min-h-screen justify-center w-full mb-16 mt-3 overflow-y-hidden overflow-x-hidden'>
           <Outlet />
         </div>
       </div>

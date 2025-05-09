@@ -36,6 +36,11 @@ const CreateTheater = React.lazy(() => import('./pages/Theaters/CreateTheater'))
 const AssignMovie = React.lazy(() => import('./pages/Theaters/AssignMovie'));
 const CreateShow = React.lazy(() => import('./pages/show/CreateShow'));
 const EditTheater = React.lazy(() => import('./pages/Theaters/EditTheater'));
+const Profile = React.lazy(() => import('./pages/profile/Profile'));
+const EditProfile = React.lazy(() => import('./pages/profile/EditProfile'));
+const EditPersonalInfo = React.lazy(() => import('./components/EditPersonalInfo'));
+const ChangePassword = React.lazy(() => import('./components/changePassword'));
+
 
 function App() {
   const dispatch = useDispatch();
@@ -64,6 +69,40 @@ function App() {
           <Route path="terms&conditions" element={<React.Suspense fallback={<div>Loading...</div>}><TermsAndConditions /></React.Suspense>} />
           <Route path="/booking/:bookingId" element={<React.Suspense fallback={<div>Loading...</div>}><BookingPage /></React.Suspense>} />
           <Route path="/bookingbyUser/:userId" element={<React.Suspense fallback={<div>Loading...</div>}><AuthLayout authentication={true}><UserBooking /></AuthLayout></React.Suspense>} />
+          <Route path="/profile/:username" element={<React.Suspense fallback={<div>Loading...</div>}><AuthLayout authentication={true}><Profile /></AuthLayout></React.Suspense>} />
+          <Route
+  path="profile/edit"
+  element={
+    <React.Suspense fallback={<div>Loading...</div>}>
+      <AuthLayout authentication={true}>
+        <EditProfile />
+      </AuthLayout>
+    </React.Suspense>
+  }
+/>
+
+<Route
+  path="/edit/personalInfo"
+  element={
+    <React.Suspense fallback={<div>Loading...</div>}>
+      <AuthLayout authentication={true}>
+        <EditPersonalInfo />
+      </AuthLayout>
+    </React.Suspense>
+  }
+/>
+
+<Route
+  path="/edit/password"
+  element={
+    <React.Suspense fallback={<div>Loading...</div>}>
+      <AuthLayout authentication={true}>
+        <ChangePassword />
+      </AuthLayout>
+    </React.Suspense>
+  }
+/>
+
         </Route>
 
         {/* Admin Auth Pages (Outside layout) */}

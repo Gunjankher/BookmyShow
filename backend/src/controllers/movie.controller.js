@@ -20,6 +20,12 @@ try {
     // if([title,genre,description].some((field)=>field?.trim() ===0)){
     //     throw new ApiError(`All the fields are required`)
     // }
+
+    const formattedFormats = Array.isArray(formats)
+  ? formats
+  : typeof formats === "string"
+  ? formats.split(",").map(f => f.trim())
+  : [];
     
     
 console.log(`admin request`,req.admin);
@@ -60,6 +66,9 @@ console.log(`admin request`,req.admin);
     let coverPoster;
 try {
   coverPoster = await uploadOnCloudinary(coverPosterLocalPath);
+  console.log(`local cover poster`,coverPosterLocalPath);
+  console.log(` cover poster`,coverPoster);
+  
   if (!coverPoster) throw new Error("coverPoster upload returned null");
 } catch (err) {
   throw new ApiError(404, `coverPoster failed to upload: ${err.message}`);
@@ -80,7 +89,7 @@ try {
     const movie = await Movie.create({
         title,
         genre,
-        formats,
+        formats :formattedFormats,
         description,
         characters,
         trailer:{

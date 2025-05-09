@@ -1,6 +1,10 @@
 import {v2 as cloudinary} from 'cloudinary'
-import { log } from 'console';
   import fs from 'fs'
+  import path from 'path'
+  import dotenv from 'dotenv'
+
+
+  dotenv.config()
 
           
   cloudinary.config({ 
@@ -11,33 +15,35 @@ import { log } from 'console';
 
 
 
-  const uploadOnCloudinary = async(localFilePath)=>{
-try {
-    if(!localFilePath) return null
-    // upload on cloudnary
-    if(localFilePath){
-    const response = await cloudinary.uploader.upload(localFilePath,{
-        resource_type :'auto'
-    })
-//file has been uploded sucessfully 
-//console.log("File has been Uploaded on Cloudinary", response.url);
-if (fs.existsSync(localFilePath)) {
-    fs.unlinkSync(localFilePath);
-  }
+  const uploadOnCloudinary = async (localFilePath) => {
+    try {
+      if (!localFilePath) return null;
 
-return response
+      console.log("Does file exist?", fs.existsSync(localFilePath));
+const stats = fs.statSync(localFilePath);
+console.log("File size:", stats.size);
 
-    }
-    
-} catch (error) {
-    if (fs.existsSync(localFilePath)) {
+  
+      const normalizedPath = path.resolve(localFilePath);
+  
+      const response = await cloudinary.uploader.upload(normalizedPath, {
+        resource_type: "auto",
+      });
+  
+      if (fs.existsSync(localFilePath)) {
         fs.unlinkSync(localFilePath);
-      } //remove the filepath if the upload failed
-    return null
-}
-
-  }
-
+      }
+  
+      return response;
+    } catch (error) {
+      console.error("Cloudinary upload error:", error.message);
+      if (fs.existsSync(localFilePath)) {
+        fs.unlinkSync(localFilePath);
+      }
+      return null;
+    }
+  };
+  
 
 
   const deleteOnCloudinary = async (public_id, resource_type="image") => {

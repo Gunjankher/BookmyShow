@@ -22,7 +22,7 @@ export const createArtist = asyncHandlar(async (req, res) => {
     //       throw new ApiError(400, "Avatar Image is Must required");
     //     }
 
-    const newArtist = await Artist.create({ name, occupation, born, avatar:avatar.url, description });
+    const newArtist = await Artist.create({ name, occupation, born, avatar:avatar?.url, description });
 
     console.log(`newartst`,newArtist);
     

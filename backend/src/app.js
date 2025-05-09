@@ -12,7 +12,34 @@ const app = express()
 
 
 
-app.use(
+
+
+
+const allowedOrigins = [
+    'http://localhost:5173',
+    'https://bookmy-show-9wtr.vercel.app',
+  ];
+  
+  app.use(cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true,
+  }));
+
+  // app.use(cors({
+  //   origin: allowedOrigins,
+  //   credentials: true,
+  // }));
+  
+
+
+
+  app.use(
     helmet.contentSecurityPolicy({
       directives: {
         defaultSrc: ["'self'"],
@@ -37,29 +64,10 @@ app.use(
     })
   );
 
-
-const allowedOrigins = [
-    'http://localhost:5174',
-    'https://bookmy-show-9wtr.vercel.app',
-  ];
-  
-  app.use(cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    credentials: true,
-  }));
-
-
-
-  app.options('*', cors({
-    origin: allowedOrigins,
-    credentials: true,
-  }));
+  // app.options('*', cors({
+  //   origin: allowedOrigins,
+  //   credentials: true,
+  // }));
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))

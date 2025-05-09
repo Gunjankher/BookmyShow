@@ -80,7 +80,7 @@ const Sidebar = () => {
     {
       icon: < CgProfile size={25}/>,
       title:"profile",
-      url:"/profile"
+      url:`/profile/${username}`
     },
   
   ]
@@ -106,9 +106,9 @@ const Sidebar = () => {
     },
   
     {
-      icon:< CgProfile size={25}/>,
+      icon: < CgProfile size={25}/>,
       title:"profile",
-      url:"/profile"
+      url:`/profile/${username}`
     },
   ]
 

@@ -12,6 +12,7 @@ import { IoCloseCircleOutline } from 'react-icons/io5';
 import { SlMenu } from "react-icons/sl";
 import { useDispatch, useSelector } from 'react-redux';
 import { BiCategory } from 'react-icons/bi';
+import { adminLogout } from '@/store/Slices/adminSlice';
 
 
 
@@ -26,6 +27,11 @@ function AdminNavbar() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+
+    const logout = async()=>{
+        await dispatch(adminLogout())
+        navigate("/")
+    }
 
 
     const sidePanelItems = [
