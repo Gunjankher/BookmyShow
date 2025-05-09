@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Button from "./Button";
-import Input from './Input'
+import Input2 from './Input2'
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserDetails } from "../store/Slices/authSlice";
@@ -45,7 +45,7 @@ function EditPersonalInfo() {
                         className="space-y-4"
                     >
                         <div className="flex flex-col">
-                            <Input
+                            <Input2
                                 label="Full Name"
                                 type="text"
                                 className="rounded"
@@ -60,7 +60,7 @@ function EditPersonalInfo() {
                             )}
                         </div>
                         <div className="flex flex-col">
-                            <Input
+                            <Input2
                                 label="Email Address"
                                 type="email"
                                 className="rounded"
