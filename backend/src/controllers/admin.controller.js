@@ -252,7 +252,11 @@ const changeAdminPassword = asyncHandlar(async (req, res) => {
     .json(new ApiResponse(200, {}, "Password Changed Successfully"));
 });
 
-const getCurrentAdmin = asyncHandlar(async (req, res) => {
+const getCurrentAdmin = asyncHandlar(async (req, res, next) => {
+  if (!req.admin) {
+    return next(new ApiError(401, "Admin not authenticated"));
+  }
+
   return res
     .status(200)
     .json(new ApiResponse(200, req.admin, "Current Admin fetched Successfully"));
