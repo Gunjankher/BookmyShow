@@ -3,12 +3,14 @@ import { asyncHandlar } from "../utilis/asyncHandlar.js";
 import jwt from "jsonwebtoken";
 import { Admin } from "../models/admin.model.js"; // Import the Admin model
 
-export const adminVerifyJWT = asyncHandlar(async (req, _, next) => {
+export const adminVerifyJWT = asyncHandlar(async (req,res, next) => {
   try {
     const token =
       req.cookies?.adminAccessToken || req.header("Authorization")?.replace("Bearer ", "").trim();
 
-    // console.log("Token found:", token);
+    console.log("Token found:", token);
+    console.log("Cookies in request:", req.cookies);
+
 
     if (!token) {
       throw new ApiError(401, "Unauthorized Request");

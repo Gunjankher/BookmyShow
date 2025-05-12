@@ -113,7 +113,7 @@ export const changePassword = createAsyncThunk("changePassword",async(data)=>{
 
 export const getCurrentAdmin = createAsyncThunk("getCurrentUser", async () => {
     const response = await axiosInstance.get("/admin/current-user");
-    // console.log(`this is currebt user res`, response);
+    console.log(`this is currebt user res`, response);
     
     return response.data?.data;
 });
