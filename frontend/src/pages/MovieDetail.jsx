@@ -74,17 +74,22 @@ const stockDes = ['In a world where every choice shapes destiny, one individual 
       
     )} */}
 
-    {movieById?.characters?.length > 0 && (
+{movieById?.characters?.length > 0 && (
   <>
     <div className='text-3xl font-extrabold text-black p-5'>Cast and Crew</div>
     <div className='flex gap-10 flex-wrap p-5'>
       {movieById.characters.map((char, idx) => (
-        <CastAndCrew
+        <Link
+          to={`/admin/actor/${char.playedBy?._id}`}
           key={char._id || idx}
-          poster={char.playedBy?.avatar}
-          actor={char.playedBy?.name}
-          character={char.name}
-        />
+          className='hover:scale-105 transition-transform duration-300'
+        >
+          <CastAndCrew
+            poster={char.playedBy?.avatar}
+            actor={char.playedBy?.name}
+            character={char.name}
+          />
+        </Link>
       ))}
     </div>
   </>
