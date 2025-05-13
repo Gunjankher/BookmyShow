@@ -13,7 +13,11 @@ import {v2 as cloudinary} from 'cloudinary'
     api_secret:process.env.CLOUDINARY_API_SECRET
   });
 
+console.log(`cloud name`, process.env.CLOUDINARY_CLOUD_NAME);
+console.log(`key`, process.env.CLOUDINARY_API_KEY);
+console.log(`secret`, process.env.CLOUDINARY_API_SECRET);
 
+  
 
   const uploadOnCloudinary = async (localFilePath) => {
     try {
