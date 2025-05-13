@@ -4,7 +4,8 @@ import MovieDetailCard from '@/components/MovieDetails/MovieDetailCard'
 import { getMovieById } from '@/store/Slices/movieSlice'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+
 
 
 
