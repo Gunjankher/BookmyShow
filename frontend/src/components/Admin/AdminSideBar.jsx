@@ -67,11 +67,7 @@ const AdminSidebar = () => {
       title:"bookings",
       url:"/admin/bookings/all"
     },
-    {
-      icon: < FaHistory size={25}/>,
-      title:"sometihng",
-      url:"/history"
-    },
+    
     // {
     //   icon: < RiAdminFill size={25}/>,
     //   title:"Admin",
