@@ -1,4 +1,4 @@
-import { getShowByMovieId } from '@/store/Slices/showSlice';
+ import { getShowByMovieId } from '@/store/Slices/showSlice';
 import { getTheatersByMovie } from '@/store/Slices/theaterSlice';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,6 +18,18 @@ function MovieByTheater() {
     }
   }, [dispatch, movieId]);
 
+  useEffect(() => {
+    console.log("🎬 theaterByMovie:", theaterByMovie);
+    console.log("🎟️ showByMovie:", showByMovie);
+  }, [theaterByMovie, showByMovie]);
+
+  // Normalize theater and show data to ensure we always work with arrays
+  const normalizedTheaters = Array.isArray(theaterByMovie)
+    ? theaterByMovie
+    : theaterByMovie
+    ? [theaterByMovie]
+    : [];
+
   const normalizedShowByMovie = Array.isArray(showByMovie)
     ? showByMovie
     : showByMovie
@@ -27,7 +39,7 @@ function MovieByTheater() {
   return (
     <div className="w-full text-black p-4">
       <div className="flex gap-6 overflow-x-auto">
-        {theaterByMovie?.map((theater) => {
+        {normalizedTheaters.map((theater) => {
           const theaterShows = normalizedShowByMovie.filter(
             (show) => show.theater === theater._id
           );
@@ -41,7 +53,7 @@ function MovieByTheater() {
                 {theater.name}, {theater.location}
               </h3>
               <div className="text-sm text-gray-600 mb-2">
-                Facilities: {theater.facilities?.join(', ')}
+                Facilities: {Array.isArray(theater.facilities) ? theater.facilities.join(', ') : 'N/A'}
               </div>
 
               {theaterShows.length > 0 ? (
