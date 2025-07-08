@@ -111,7 +111,7 @@ function App() {
         <Route path="/admin/signup" element={<React.Suspense fallback={<div>Loading...</div>}><AdminSignup /></React.Suspense>} />
 
         {/* Admin Routes (With Admin Layout) */}
-        <Route path="/admin" element={<AdminLayout />}>
+        <Route path="/admin" element={<AdminLayout authentication = {true} />}>
           <Route index element={<React.Suspense fallback={<div>Loading...</div>}><AuthLayout authentication={true} adminOnly={true}><DashBoard /></AuthLayout></React.Suspense>} />
           <Route path="/admin/dashboard" element={<React.Suspense fallback={<div>Loading...</div>}><AuthLayout authentication={true} adminOnly={true}><DashBoard /></AuthLayout></React.Suspense>} />
           <Route path="/admin/movieManage" element={<React.Suspense fallback={<div>Loading...</div>}><AuthLayout authentication={true} adminOnly={true}><MovieManage /></AuthLayout></React.Suspense>} />
